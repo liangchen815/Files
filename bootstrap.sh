@@ -115,7 +115,7 @@ binaryDownload() {
       local URL=$2
       echo "===> Downloading: " ${URL}
       # Check if a previous failure occurred and the file was partially downloaded
-      echo "===> PWD: " ${pwd}
+      echo "===> PWD: " ${PWD}
       echo "===> BINARY_FILE: " ${BINARY_FILE}
       if [ -e ${BINARY_FILE} ]; then
           echo "==> Partial binary file found. Resuming download..."
