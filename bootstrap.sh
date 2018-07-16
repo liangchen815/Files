@@ -117,19 +117,20 @@ binaryDownload() {
       # Check if a previous failure occurred and the file was partially downloaded
       echo "===> PWD: " ${PWD}
       echo "===> BINARY_FILE: " ${BINARY_FILE}
-      if [ -e ${BINARY_FILE} ]; then
-          echo "==> Partial binary file found. Resuming download..."
-          binaryIncrementalDownload ${BINARY_FILE} ${URL}
-      else
-          curl ${URL} | tar xz || rc=$?
-          if [ ! -z "$rc" ]; then
-              echo "==> There was an error downloading the binary file. Switching to incremental download."
-              echo "==> Downloading file..."
-              binaryIncrementalDownload ${BINARY_FILE} ${URL}
-	  else
-	      echo "==> Done."
-          fi
-      fi
+      #if [ -e ${BINARY_FILE} ]; then
+      #    echo "==> Partial binary file found. Resuming download..."
+      #    binaryIncrementalDownload ${BINARY_FILE} ${URL}
+      #else
+      rm ${BINARY_FILE}
+      curl ${URL} | tar xz || rc=$?
+      #if [ ! -z "$rc" ]; then
+      #    echo "==> There was an error downloading the binary file. Switching to incremental download."
+      #    echo "==> Downloading file..."
+      #    binaryIncrementalDownload ${BINARY_FILE} ${URL}
+      #else
+      echo "==> Done."
+      #fi
+      #fi
 }
 
 binariesInstall() {
