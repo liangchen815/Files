@@ -88,19 +88,19 @@ binaryIncrementalDownload() {
       fi
       if [ -z "$rc" ] || [ $rc -eq 33 ] || [ $rc -eq 2 ]; then
           # The checksum validates that RC 33 or 2 are not real failures
-          echo "==> File downloaded. Verifying the md5sum..."
-          localMd5sum=$(md5sum ${BINARY_FILE} | awk '{print $1}')
-          remoteMd5sum=$(curl -s ${URL}.md5)
-          if [ "$localMd5sum" == "$remoteMd5sum" ]; then
-              echo "==> Extracting ${BINARY_FILE}..."
-              tar xzf ./${BINARY_FILE} --overwrite
-	      echo "==> Done."
-              rm -f ${BINARY_FILE} ${BINARY_FILE}.md5
-          else
-              echo "Download failed: the local md5sum is different from the remote md5sum. Please try again."
-              rm -f ${BINARY_FILE} ${BINARY_FILE}.md5
-              exit 1
-          fi
+          #echo "==> File downloaded. Verifying the md5sum..."
+          #localMd5sum=$(md5sum ${BINARY_FILE} | awk '{print $1}')
+          #remoteMd5sum=$(curl -s ${URL}.md5)
+          #if [ "$localMd5sum" == "$remoteMd5sum" ]; then
+          echo "==> Extracting ${BINARY_FILE}..."
+          tar xzf ./${BINARY_FILE} --overwrite
+	  echo "==> Done."
+          #    rm -f ${BINARY_FILE} ${BINARY_FILE}.md5
+          #else
+          #    echo "Download failed: the local md5sum is different from the remote md5sum. Please try again."
+          #    rm -f ${BINARY_FILE} ${BINARY_FILE}.md5
+          #    exit 1
+          #fi
       else
           echo "Failure downloading binaries (curl RC=$rc). Please try again and the download will resume from where it stopped."
           exit 1
@@ -132,7 +132,7 @@ binaryDownload() {
 
 binariesInstall() {
   echo "===> Downloading version ${FABRIC_TAG} platform specific fabric binaries"
-  binaryDownload ${BINARY_FILE} https://github.com/liangchen815/Files/releases/download/1/hyperledger-fabric-linux-amd64-1.2.0.tar.gz
+  binaryDownload ${BINARY_FILE} https://github.com/liangchen815/Files/releases/download/1/${BINARY_FILE}
   if [ $? -eq 22 ]; then
      echo
      echo "------> ${FABRIC_TAG} platform specific fabric binary is not available to download <----"
@@ -140,7 +140,7 @@ binariesInstall() {
    fi
 
   echo "===> Downloading version ${CA_TAG} platform specific fabric-ca-client binary"
-  binaryDownload ${CA_BINARY_FILE} https://github.com/liangchen815/Files/releases/download/1/hyperledger-fabric-ca-linux-amd64-1.2.0.tar.gz
+  binaryDownload ${CA_BINARY_FILE} https://github.com/liangchen815/Files/releases/download/1/${CA_BINARY_FILE}
   if [ $? -eq 22 ]; then
      echo
      echo "------> ${CA_TAG} fabric-ca-client binary is not available to download  (Available from 1.1.0-rc1) <----"
